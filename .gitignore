@@ -5,6 +5,7 @@
 
 # backend / api
 
+backend/model/
 api-env/
 *.db
 __pycache__/
