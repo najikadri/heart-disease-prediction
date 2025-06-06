@@ -7,6 +7,7 @@ from enum import Enum
 from pathlib import Path
 from typing import Literal, Optional
 from fastapi import FastAPI, Query, HTTPException, status
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
 
@@ -32,6 +33,15 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 
+# Add CORS middleware to allow cross-origin requests (development purposes)
+# In production, you should restrict this to specific origins
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allow all origins for CORS
+    allow_credentials=True,
+    allow_methods=["*"],  # Allow all methods
+    allow_headers=["*"],  # Allow all headers
+)
 class HeartDiseaseFlag(int, Enum):
     NO_HEART_DISEASE = 0
     HEART_DISEASE = 1
