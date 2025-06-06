@@ -1,9 +1,9 @@
 import { Home, Users, Activity } from "lucide-react";
 
 const navLinks = [
-    { name: "Dashboard", href: "#", icon: <Home className="w-5 h-5" /> },
-    { name: "Patients", href: "#", icon: <Users className="w-5 h-5" /> },
-    { name: "Evaluation", href: "#", icon: <Activity className="w-5 h-5" /> },
+    { name: "Dashboard", href: "/", icon: <Home className="w-5 h-5" /> },
+    { name: "Patients", href: "/patients", icon: <Users className="w-5 h-5" /> },
+    { name: "Evaluation", href: "/evaluation", icon: <Activity className="w-5 h-5" /> },
     // { name: "Settings", href: "#", icon: <Settings className="w-5 h-5" /> },
 ];
 

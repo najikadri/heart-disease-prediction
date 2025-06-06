@@ -1,15 +1,8 @@
-import DashboardLayout from "./components/DashboardLayout"
-import Topbar from "./components/Topbar"
+import { RouterProvider } from "react-router-dom"
+import { router } from "./routes"
 
 function App() {
-
-  return (
-    <>
-      <Topbar />
-      <DashboardLayout>
-      </DashboardLayout>
-    </>
-  )
+  return <RouterProvider router={router} />
 }
 
 export default App
