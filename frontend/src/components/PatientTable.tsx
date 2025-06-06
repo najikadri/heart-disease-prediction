@@ -8,6 +8,7 @@ type PatientTableProps = {
 };
 
 const columns: { key: keyof Patient; label: string }[] = [
+  { key: "id", label: "ID" },
   { key: "Age", label: "Age" },
   { key: "Sex", label: "Sex" },
   { key: "ChestPainType", label: "Chest Pain" },

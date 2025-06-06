@@ -1,4 +1,5 @@
 export type Patient = {
+  id: number;
   Age: number;
   Sex: "M" | "F";
   ChestPainType: "ATA" | "NAP" | "ASY" | "TA";
