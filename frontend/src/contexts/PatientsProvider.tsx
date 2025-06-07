@@ -9,7 +9,6 @@ export const PatientsProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    console.log("Fetching patients...");
     fetchPatients()
       .then(setPatients)
       .catch(err => alert(err.message))
