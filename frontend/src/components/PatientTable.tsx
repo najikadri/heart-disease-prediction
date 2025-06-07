@@ -3,6 +3,7 @@ import type { Patient } from "../types/Patient";
 
 type PatientTableProps = {
   patients: Patient[];
+  totalPatients?: number;
 };
 
 // Prioritize columns for different screen sizes
@@ -24,7 +25,7 @@ const allColumns: { key: keyof Patient; label: string }[] = [
   { key: "HeartDisease", label: "Heart Disease" },
 ];
 
-const PatientTable: React.FC<PatientTableProps> = ({ patients }) => {
+const PatientTable: React.FC<PatientTableProps> = ({ patients, totalPatients: totalCount }) => {
   return (
     <div className="space-y-4">
       {/* Summary Card (unchanged) */}
@@ -36,7 +37,7 @@ const PatientTable: React.FC<PatientTableProps> = ({ patients }) => {
           <div>
             <p className="text-sm font-medium text-gray-500">Total Patients</p>
             <div className="flex items-baseline space-x-2">
-              <span className="text-2xl font-bold text-gray-800">{patients.length}</span>
+              <span className="text-2xl font-bold text-gray-800">{totalCount ? totalCount : patients.length}</span>
               <span className="text-sm text-gray-500">records</span>
             </div>
           </div>
