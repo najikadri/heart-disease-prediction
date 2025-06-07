@@ -1,19 +1,10 @@
-import { useEffect, useState } from "react";
 import Card from "../../components/Card"
 import PatientTableWithFilters from "../../components/PatientTableWithFilters";
-import type { Patient } from "../../types/Patient";
-import { fetchPatients } from "../../utilities/api";
+import { usePatients } from "../../hooks/usePatients";
 
 function PatientsPage() {
-  const [patients, setPatients] = useState<Patient[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetchPatients()
-      .then(setPatients)
-      .catch(err => alert(err.message))
-      .finally(() => setLoading(false));
-  }, []);
+  // Using the custom hook to access patients data and loading state
+  const { patients, loading } = usePatients();
 
   if (loading) return <div>Loading...</div>;
 

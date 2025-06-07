@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Home, Users, Activity } from "lucide-react";
 
 const navLinks = [
@@ -15,13 +16,13 @@ function Sidebar() {
                 <ul className="space-y-2">
                     {navLinks.map(link => (
                         <li key={link.name}>
-                            <a
-                                href={link.href}
+                            <Link
+                                to={link.href}
                                 className="flex items-center gap-3 py-2 px-4 hover:bg-gray-700 rounded"
                             >
                                 {link.icon}
                                 <span>{link.name}</span>
-                            </a>
+                            </Link>
                         </li>
                     ))}
                 </ul>
