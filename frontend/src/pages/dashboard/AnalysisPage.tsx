@@ -2,7 +2,7 @@ import { useState } from 'react';
 import KPICard from "../../components/KPICard";
 import { usePatients } from "../../hooks/usePatients";
 import { Users, HeartCrack, Pill, HeartPulse, Filter } from "lucide-react";
-import { Pie, Scatter } from 'react-chartjs-2';
+import { Line, Pie, Scatter } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
   ArcElement,
@@ -11,10 +11,11 @@ import {
   Tooltip,
   Legend,
   CategoryScale,
+  LineElement
 } from 'chart.js';
 import TextCard from '../../components/TextCard';
 
-ChartJS.register(ArcElement, LinearScale, PointElement, Tooltip, Legend, CategoryScale);
+ChartJS.register(ArcElement, LinearScale, PointElement, Tooltip, Legend, CategoryScale, LineElement);
 
 function AnalysisPage() {
   const { patients, loading } = usePatients();
@@ -23,6 +24,26 @@ function AnalysisPage() {
     sex: 'all',
     riskLevel: 'all'
   });
+  const [lineChartConfig, setLineChartConfig] = useState({
+    xField: 'Age',
+    yField: 'Cholesterol',
+    aggregation: 'average'
+  });
+
+  const numericalFields = [
+    { value: 'Age', label: 'Age' },
+    { value: 'RestingBP', label: 'Resting BP' },
+    { value: 'Cholesterol', label: 'Cholesterol' },
+    { value: 'MaxHR', label: 'Max Heart Rate' },
+    { value: 'Oldpeak', label: 'Oldpeak' }
+  ];
+
+  const aggregationOptions = [
+    { value: 'sum', label: 'Sum' },
+    { value: 'average', label: 'Average' },
+    { value: 'min', label: 'Minimum' },
+    { value: 'max', label: 'Maximum' }
+  ];
 
   if (loading) return <div className="flex justify-center p-8"><span className="loading loading-spinner loading-lg"></span></div>;
 
@@ -77,6 +98,49 @@ function AnalysisPage() {
       borderColor: '#DC2626'
     }]
   };
+
+  // Line Chart Data
+  const getLineChartData = () => {
+    const groups: Record<number, number[]> = {};
+
+    filteredPatients.forEach(patient => {
+      const xValue = patient[lineChartConfig.xField as keyof typeof patient] as number;
+      const yValue = patient[lineChartConfig.yField as keyof typeof patient] as number;
+
+      if (xValue === undefined || yValue === undefined) return;
+
+      if (!groups[xValue]) groups[xValue] = [];
+      groups[xValue].push(yValue);
+    });
+
+    const sortedKeys = Object.keys(groups)
+      .map(Number)
+      .sort((a, b) => a - b);
+
+    const data = sortedKeys.map(key => {
+      const values = groups[key];
+      switch (lineChartConfig.aggregation) {
+        case 'sum': return values.reduce((a, b) => a + b, 0);
+        case 'average': return values.reduce((a, b) => a + b, 0) / values.length;
+        case 'min': return Math.min(...values);
+        case 'max': return Math.max(...values);
+        default: return 0;
+      }
+    });
+
+    return {
+      labels: sortedKeys,
+      datasets: [{
+        label: `${lineChartConfig.aggregation} ${lineChartConfig.yField}`,
+        data,
+        borderColor: '#3b82f6',
+        backgroundColor: 'rgba(59, 130, 246, 0.5)',
+        tension: 0.3
+      }]
+    };
+  };
+
+  const lineData = getLineChartData();
 
   return (
     <div className="space-y-6">
@@ -245,6 +309,78 @@ function AnalysisPage() {
             />
           </div>
         </div>
+
+        {/* Interactive Line Chart */}
+        <div className="bg-white rounded-lg shadow p-6 mb-2 lg:col-span-2">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="font-semibold text-lg">Interactive Line Chart</h3>
+            <div className="flex gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">X-Axis</label>
+                <select
+                  value={lineChartConfig.xField}
+                  onChange={(e) => setLineChartConfig({ ...lineChartConfig, xField: e.target.value })}
+                  className="px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                >
+                  {numericalFields.map(field => (
+                    <option key={field.value} value={field.value}>{field.label}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Y-Axis</label>
+                <select
+                  value={lineChartConfig.yField}
+                  onChange={(e) => setLineChartConfig({ ...lineChartConfig, yField: e.target.value })}
+                  className="px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                >
+                  {numericalFields.map(field => (
+                    <option key={field.value} value={field.value}>{field.label}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Aggregation</label>
+                <select
+                  value={lineChartConfig.aggregation}
+                  onChange={(e) => setLineChartConfig({ ...lineChartConfig, aggregation: e.target.value })}
+                  className="px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                >
+                  {aggregationOptions.map(option => (
+                    <option key={option.value} value={option.value}>{option.label}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div className="h-80">
+            <Line
+              data={lineData}
+              options={{
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                  x: {
+                    title: {
+                      display: true,
+                      text: lineChartConfig.xField
+                    }
+                  },
+                  y: {
+                    title: {
+                      display: true,
+                      text: `${lineChartConfig.aggregation} of ${lineChartConfig.yField}`
+                    }
+                  }
+                }
+              }}
+            />
+          </div>
+        </div>
+
       </div>
     </div>
   );
