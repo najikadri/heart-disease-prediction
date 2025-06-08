@@ -1,4 +1,4 @@
-import Card from "../../components/Card"
+import TextCard from "../../components/TextCard"
 import KPICard from "../../components/KPICard";
 import { usePatients } from "../../hooks/usePatients";
 import { Users, HeartCrack, Pill, HeartPulse } from "lucide-react";
@@ -16,7 +16,7 @@ function AnalysisPage() {
 
   return (
     <div className="space-y-6">
-      <Card title="Analysis Page" description="This is the analysis page where you can view various data insights." />
+      <TextCard title="Analysis Page" description="This is the analysis page where you can view various data insights." />
       {/* KPI Grid */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <KPICard

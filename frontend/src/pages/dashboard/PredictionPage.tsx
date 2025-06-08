@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Card from "../../components/Card";
+import TextCard from "../../components/TextCard";
 import { predictPatientRisk } from "../../utilities/api";
 
 type PatientFormData = {
@@ -57,7 +57,7 @@ function PredictionPage() {
 
   return (
     <div className="space-y-6">
-      <Card
+      <TextCard
         title="Page Information"
         description="Enter patient details to quickly assess heart disease risk. This tool uses advanced machine learning to support your clinical decision-making."
       />

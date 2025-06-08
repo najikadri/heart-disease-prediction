@@ -1,5 +1,5 @@
 
-function Card({ title, description }: { title: string; description: string; }) {
+function TextCard({ title, description }: { title: string; description: string; }) {
     return (
         <div className="bg-white rounded-lg shadow p-6">
             <h2 className="text-2xl font-bold mb-4">{title}</h2>
@@ -10,4 +10,4 @@ function Card({ title, description }: { title: string; description: string; }) {
     );
 }
 
-export default Card;
+export default TextCard;

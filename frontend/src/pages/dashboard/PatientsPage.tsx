@@ -1,4 +1,4 @@
-import Card from "../../components/Card"
+import TextCard from "../../components/TextCard"
 import PatientTableWithFilters from "../../components/PatientTableWithFilters";
 import { usePatients } from "../../hooks/usePatients";
 
@@ -10,7 +10,7 @@ function PatientsPage() {
 
   return (
     <div className="flex flex-col gap-4 px-4">
-      <Card title="Page Information"
+      <TextCard title="Page Information"
         description="The patients records page allow you to see the complete patients data with filters." />
       <PatientTableWithFilters patients={patients} />
     </div>
