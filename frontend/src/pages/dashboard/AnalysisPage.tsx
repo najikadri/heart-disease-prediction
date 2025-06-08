@@ -311,10 +311,10 @@ function AnalysisPage() {
         </div>
 
         {/* Interactive Line Chart */}
-        <div className="bg-white rounded-lg shadow p-6 mb-2 lg:col-span-2">
-          <div className="flex items-center justify-between mb-4">
+        <div className="bg-white rounded-lg shadow p-6 mb-2 lg:col-span-2 w-full max-w-full">
+          <div className="flex items-center justify-between mb-4 flex-col lg:flex-row">
             <h3 className="font-semibold text-lg">Interactive Line Chart</h3>
-            <div className="flex gap-4">
+            <div className="flex gap-4 flex-wrap justify-center">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">X-Axis</label>
                 <select
