@@ -95,7 +95,7 @@ This project provides a full-stack heart disease prediction solution demonstrati
    * Open `data-analysis/heart_disease.ipynb` in Jupyter.
 3. **Setup Backend**
 
-   * Navigate to `backend/`, follow instructions in `README_backend.md`.
+   * Navigate to `backend/`, follow instructions in `README.md`.
 4. **Setup Frontend**
 
    * Navigate to `frontend/`, follow instructions in `README.md`.
